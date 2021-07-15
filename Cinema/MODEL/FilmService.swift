@@ -76,15 +76,7 @@ struct FilmService {
         
     }
  
-    func getImage (imagePath : String) -> Data {
-        
-        let urlBase = "https://image.tmdb.org/t/p/original"
-        let urlTot = URL(string :(urlBase + imagePath))!
-        
-        let imageData = try! Data(contentsOf: urlTot)
-        
-        return imageData
-    }
+    
     
     func getDate (dateString : String) -> String {
         let dateFormatter = DateFormatter()
@@ -96,6 +88,68 @@ struct FilmService {
         
         return dateDef
     }
+    
+    
+    
    
 }
+
+func saveFilm (film : Film)  {
+   
+    let favoriteFilm = FilmDB(context: AppDelegate.viewContext)
+   
+    favoriteFilm.title = film.title
+    favoriteFilm.original_language = film.original_language
+    favoriteFilm.overview = film.overview
+    favoriteFilm.poster_path = film.poster_path
+    favoriteFilm.release_date = film.release_date
+    
+    for element in FilmDB.all {
+        if element.title != film.title{
+            try? AppDelegate.viewContext.save()
+            print ("Le nouvel élément a bien été enregistré")
+        }
+    else {
+       print ("je n'ai pas sauvegardé cet élément car il existe déjà dans la base de données")
+    }
+    
+    }}
+    
+func deleteAllFilms ()  {
+    
+    for element in FilmDB.all {
+        
+        AppDelegate.viewContext.delete(element)
+        print ("l'élément \(element.title!) a bien été supprimé ")
+    }
+    
+    try? AppDelegate.viewContext.save()
+    
+}
+
+    
+func getImage (imagePath : String) -> Data {
+    
+    let urlBase = "https://image.tmdb.org/t/p/original"
+    let urlTot = URL(string :(urlBase + imagePath))!
+    
+    let imageData = try? Data(contentsOf: urlTot)
+    
+    return imageData ?? Data(count: 0)
+}
+    
+    
+
+
+//func displayFavoriteFilm(){
+//    let FilmDBTot = FilmDB.all
+//    let sortedFilmDBTot = FilmDBTot.sorted{
+//        $0.release_date ?? "" < $1.release_date ?? ""
+//    }
+//
+//    for film in sortedFilmDBTot {
+//        print (film.title ?? "", film.release_date ?? "")
+//    }
+//}
+
 

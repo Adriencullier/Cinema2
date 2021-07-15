@@ -81,6 +81,8 @@
 			children = (
 				036A83232696CF5B00045A7A /* Film.swift */,
 				036A83252696D02400045A7A /* FilmService.swift */,
+				03ABB0C726981B4600E56E03 /* CustomCollectionViewCell.swift */,
+				035DA8A7269C5434007E8A6E /* DateCustomCollectionViewCell.swift */,
 			);
 			path = MODEL;
 			sourceTree = "<group>";
@@ -90,8 +92,6 @@
 			children = (
 				036A83162696CE3000045A7A /* LaunchScreen.storyboard */,
 				036A830E2696CE2800045A7A /* Main.storyboard */,
-				03ABB0C726981B4600E56E03 /* CustomCollectionViewCell.swift */,
-				035DA8A7269C5434007E8A6E /* DateCustomCollectionViewCell.swift */,
 			);
 			path = VIEW;
 			sourceTree = "<group>";

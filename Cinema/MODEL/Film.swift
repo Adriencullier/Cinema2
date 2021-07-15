@@ -7,8 +7,22 @@
 
 import Foundation
 import UIKit
+import CoreData
 
-struct Film : Decodable {
+class FilmDB : NSManagedObject {
+        
+    static var all :  [FilmDB] {
+        let request : NSFetchRequest<FilmDB> = FilmDB.fetchRequest()
+        guard let persons = try? AppDelegate.viewContext.fetch(request)
+        else {
+            return []
+        }
+        return persons
+    }
+    
+}
+
+struct Film : Decodable, Hashable {
     var title : String
     var release_date : String
     var poster_path : String

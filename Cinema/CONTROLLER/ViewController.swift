@@ -9,48 +9,42 @@ import UIKit
 
 class ViewController: UIViewController {
     
-
-    
-    
-    
-
     @IBOutlet weak var filmCollectionView: UICollectionView!
     
     @IBOutlet weak var dateCollectionView: UICollectionView!
     
     
-    var arrayOfFilms = [Film]()
-    var sortedArrayOfFilms  = [Film]()
+    var arrayOfFilms = Set<Film>()
     var arrayOfDate = [String]()
     var sortedArrayOfDate = [String]()
+    var sortedFilmDBTot = [FilmDB]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+//        displayFavoriteFilm()
+//
         FilmService.shared.getFilmsRelease { success, arrayOfFilm in
             if success, let arrayOfFilm = arrayOfFilm {
                 for element in arrayOfFilm.results {
-                    self.arrayOfFilms.append(element)
+                    
+                    self.arrayOfFilms.insert(element)
+                    print (self.arrayOfFilms.description)
+//                    saveFilm(film: element)
+//                    deleteAllFilms()
                     if self.arrayOfDate.contains(element.release_date) == false {
                         self.arrayOfDate.append(element.release_date)
                     }
                     else{
-                        
                     }
-                   
                 }
-                self.sortedArrayOfFilms = self.arrayOfFilms.sorted{
-                    $0.release_date < $1.release_date
-                    }
-                self.sortedArrayOfDate = self.arrayOfDate.sorted{
-                    $0 < $1
+                
+                for element in arrayOfFilms {
+                    if
                 }
+                
             }
-            
         }
-        
-      
-        
+
         let name = Notification.Name(rawValue: "filmsLoaded")
         NotificationCenter.default.addObserver(self, selector: #selector(filmsLoaded), name: name, object: nil)
         
@@ -58,10 +52,22 @@ class ViewController: UIViewController {
         
     }
     
-   
+
+    
     @objc func filmsLoaded(){
         DispatchQueue.main.async {
             self.filmCollectionView.reloadData()
+//            displayFavoriteFilm()
+            
+            self.sortedFilmDBTot = FilmDB.all.sorted{
+              $0.release_date ?? "" < $1.release_date ?? ""
+            }
+            self.sortedArrayOfDate = self.arrayOfDate.sorted{
+                $0 < $1
+            }
+            
+            
+            
     }
         DispatchQueue.main.async {
             self.dateCollectionView.reloadData()
@@ -81,10 +87,10 @@ extension ViewController : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if collectionView == filmCollectionView {
-        return self.sortedArrayOfFilms.count
+            return FilmDB.all.count
         }
         else {
-          return  self.sortedArrayOfDate.count
+          return  sortedArrayOfDate.count
         }
      
     }
@@ -96,9 +102,17 @@ extension ViewController : UICollectionViewDataSource {
         
         let cellFilm = filmCollectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as! CustomCollectionViewCell
         
-        cellFilm.labelCell.text = sortedArrayOfFilms[indexPath.item].title
-        cellFilm.labelDateCell.text = sortedArrayOfFilms[indexPath.item].release_date
-        cellFilm.imageCell.image = UIImage(data: FilmService.shared.getImage(imagePath: sortedArrayOfFilms[indexPath.item].poster_path))
+        cellFilm.labelCell.text = FilmDB.all[indexPath.item].title
+        
+        cellFilm.favoriteButtonOutlet.tag = indexPath.item
+            
+        cellFilm.favoriteButtonOutlet.addTarget(self, action: #selector(addToFavorite), for: .touchUpInside)
+       
+        let image = UIImage(data: (getImage(imagePath: FilmDB.all[indexPath.item].poster_path ?? "")))
+        
+        let data = image?.jpegData(compressionQuality: -15)
+        
+        cellFilm.imageCell.image = UIImage(data: data ?? Data(count: 0))
         
         let cellDate = dateCollectionView.dequeueReusableCell(withReuseIdentifier: "DateCustomCollectionViewCell", for: indexPath) as! DateCustomCollectionViewCell
         
@@ -116,7 +130,22 @@ extension ViewController : UICollectionViewDataSource {
         }
         
     }
-    
+ 
+    @objc func addToFavorite(sender : UIButton){
+        
+        for element in FilmDB.all{
+            if element.title == sortedFilmDBTot[sender.tag].title && FilmDB.all[sender.tag].isFavorite == false  {
+                element.isFavorite = true
+                sender.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            }
+            else if element.title == FilmDB.all[sender.tag].title && FilmDB.all[sender.tag].isFavorite == true  {
+                element.isFavorite = false
+                sender.setImage(UIImage(systemName: "heart"), for: .normal)
+            }
+            
+        }
+        print(sortedFilmDBTot[sender.tag].title ?? "", FilmDB.all[sender.tag].isFavorite )
+    }
     
 }
 
@@ -125,6 +154,8 @@ extension ViewController : UICollectionViewDataSource {
 extension ViewController : UICollectionViewDelegate {
     
 }
+
+
 
 
     

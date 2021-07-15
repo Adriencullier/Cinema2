@@ -13,7 +13,8 @@ class DateCustomCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
             super.awakeFromNib()
-        labelDateCV.baselineAdjustment = .none
+        self.layer.cornerRadius = 20
+       
         
         
         }
