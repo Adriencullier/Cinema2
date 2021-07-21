@@ -18,6 +18,10 @@
 		036A83242696CF5B00045A7A /* Film.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036A83232696CF5B00045A7A /* Film.swift */; };
 		036A83262696D02400045A7A /* FilmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036A83252696D02400045A7A /* FilmService.swift */; };
 		03ABB0C826981B4600E56E03 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03ABB0C726981B4600E56E03 /* CustomCollectionViewCell.swift */; };
+		03B7B5BF26A06A28005A5FF8 /* TinderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B7B5BE26A06A28005A5FF8 /* TinderViewController.swift */; };
+		03B7B5C126A06F88005A5FF8 /* FilmService2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B7B5C026A06F88005A5FF8 /* FilmService2.swift */; };
+		03B7B5C326A1C803005A5FF8 /* FilmDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B7B5C226A1C802005A5FF8 /* FilmDescriptionViewController.swift */; };
+		03B7B5C526A6D17F005A5FF8 /* FilmDescriptionViewController2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B7B5C426A6D17E005A5FF8 /* FilmDescriptionViewController2ViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +38,10 @@
 		036A83232696CF5B00045A7A /* Film.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Film.swift; sourceTree = "<group>"; };
 		036A83252696D02400045A7A /* FilmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmService.swift; sourceTree = "<group>"; };
 		03ABB0C726981B4600E56E03 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
+		03B7B5BE26A06A28005A5FF8 /* TinderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinderViewController.swift; sourceTree = "<group>"; };
+		03B7B5C026A06F88005A5FF8 /* FilmService2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmService2.swift; sourceTree = "<group>"; };
+		03B7B5C226A1C802005A5FF8 /* FilmDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmDescriptionViewController.swift; sourceTree = "<group>"; };
+		03B7B5C426A6D17E005A5FF8 /* FilmDescriptionViewController2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmDescriptionViewController2ViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +89,7 @@
 			children = (
 				036A83232696CF5B00045A7A /* Film.swift */,
 				036A83252696D02400045A7A /* FilmService.swift */,
+				03B7B5C026A06F88005A5FF8 /* FilmService2.swift */,
 				03ABB0C726981B4600E56E03 /* CustomCollectionViewCell.swift */,
 				035DA8A7269C5434007E8A6E /* DateCustomCollectionViewCell.swift */,
 			);
@@ -100,6 +109,9 @@
 			isa = PBXGroup;
 			children = (
 				036A830C2696CE2800045A7A /* ViewController.swift */,
+				03B7B5BE26A06A28005A5FF8 /* TinderViewController.swift */,
+				03B7B5C226A1C802005A5FF8 /* FilmDescriptionViewController.swift */,
+				03B7B5C426A6D17E005A5FF8 /* FilmDescriptionViewController2ViewController.swift */,
 			);
 			path = CONTROLLER;
 			sourceTree = "<group>";
@@ -185,6 +197,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				036A83242696CF5B00045A7A /* Film.swift in Sources */,
+				03B7B5C326A1C803005A5FF8 /* FilmDescriptionViewController.swift in Sources */,
 				035DA8A8269C5434007E8A6E /* DateCustomCollectionViewCell.swift in Sources */,
 				03ABB0C826981B4600E56E03 /* CustomCollectionViewCell.swift in Sources */,
 				036A83132696CE2800045A7A /* Cinema.xcdatamodeld in Sources */,
@@ -192,6 +205,9 @@
 				036A83262696D02400045A7A /* FilmService.swift in Sources */,
 				036A83092696CE2800045A7A /* AppDelegate.swift in Sources */,
 				036A830B2696CE2800045A7A /* SceneDelegate.swift in Sources */,
+				03B7B5C526A6D17F005A5FF8 /* FilmDescriptionViewController2ViewController.swift in Sources */,
+				03B7B5C126A06F88005A5FF8 /* FilmService2.swift in Sources */,
+				03B7B5BF26A06A28005A5FF8 /* TinderViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

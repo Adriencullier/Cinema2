@@ -9,9 +9,12 @@ import UIKit
 
 class ViewController: UIViewController {
     
+
     @IBOutlet weak var filmCollectionView: UICollectionView!
     
-    @IBOutlet weak var dateCollectionView: UICollectionView!
+    @IBAction func descriptionFilm(_ sender: Any) {
+        
+    }
     
     
     var arrayOfFilms = Set<Film>()
@@ -21,64 +24,12 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        displayFavoriteFilm()
-//
-        FilmService.shared.getFilmsRelease { success, arrayOfFilm in
-            if success, let arrayOfFilm = arrayOfFilm {
-                for element in arrayOfFilm.results {
-                    
-                    self.arrayOfFilms.insert(element)
-                    print (self.arrayOfFilms.description)
-//                    saveFilm(film: element)
-//                    deleteAllFilms()
-                    if self.arrayOfDate.contains(element.release_date) == false {
-                        self.arrayOfDate.append(element.release_date)
-                    }
-                    else{
-                    }
-                }
-                
-                for element in arrayOfFilms {
-                    if
-                }
-                
-            }
-        }
+        
 
-        let name = Notification.Name(rawValue: "filmsLoaded")
-        NotificationCenter.default.addObserver(self, selector: #selector(filmsLoaded), name: name, object: nil)
         
-       
         
     }
-    
-
-    
-    @objc func filmsLoaded(){
-        DispatchQueue.main.async {
-            self.filmCollectionView.reloadData()
-//            displayFavoriteFilm()
-            
-            self.sortedFilmDBTot = FilmDB.all.sorted{
-              $0.release_date ?? "" < $1.release_date ?? ""
-            }
-            self.sortedArrayOfDate = self.arrayOfDate.sorted{
-                $0 < $1
-            }
-            
-            
-            
-    }
-        DispatchQueue.main.async {
-            self.dateCollectionView.reloadData()
-        }
-        
-    }
-    
-  
-   
-        
-    }
+}
 
 
 
@@ -86,12 +37,9 @@ extension ViewController : UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        if collectionView == filmCollectionView {
-            return FilmDB.all.count
-        }
-        else {
-          return  sortedArrayOfDate.count
-        }
+
+        return getFavoriteFilm().count ?? 0
+        
      
     }
    
@@ -102,52 +50,60 @@ extension ViewController : UICollectionViewDataSource {
         
         let cellFilm = filmCollectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as! CustomCollectionViewCell
         
-        cellFilm.labelCell.text = FilmDB.all[indexPath.item].title
+        cellFilm.labelCell.text = getFavoriteFilm()[indexPath.item].title
+
+        cellFilm.deleteButtonOutlet.tag = indexPath.item
+        cellFilm.deleteButtonOutlet.addTarget(self, action: #selector(deleteFromFavoritList), for: .touchUpInside)
         
-        cellFilm.favoriteButtonOutlet.tag = indexPath.item
-            
-        cellFilm.favoriteButtonOutlet.addTarget(self, action: #selector(addToFavorite), for: .touchUpInside)
-       
-        let image = UIImage(data: (getImage(imagePath: FilmDB.all[indexPath.item].poster_path ?? "")))
+        cellFilm.isViewButtonOutlet.tag = indexPath.item
+        cellFilm.isViewButtonOutlet.addTarget(self, action: #selector(addInIsView), for: .touchUpInside)
         
-        let data = image?.jpegData(compressionQuality: -15)
+        cellFilm.descriptionFilmOutlet.tag = indexPath.item
+        cellFilm.descriptionFilmOutlet.addTarget(self, action: #selector(descriptionFilm), for: .touchUpInside)
+
+
         
-        cellFilm.imageCell.image = UIImage(data: data ?? Data(count: 0))
+        let image = getImage(imagePath: getFavoriteFilm()[indexPath.item].poster_path!)
+
+        let data = image.jpegData(compressionQuality: 0)
+
+        cellFilm.imageCell.image = UIImage(data: data!)
         
-        let cellDate = dateCollectionView.dequeueReusableCell(withReuseIdentifier: "DateCustomCollectionViewCell", for: indexPath) as! DateCustomCollectionViewCell
-        
-        if indexPath.item <= sortedArrayOfDate.count-1 {
-            
-            cellDate.labelDateCV.text = FilmService.shared.getDate(dateString: self.sortedArrayOfDate[indexPath.item])
-            
-        }
-        
-        if collectionView == filmCollectionView{
+        cellFilm.releaseDateLabel.text = "Date de sortie : \(getDate(dateString: getFavoriteFilm()[indexPath.item].release_date!))"
+
+
         return cellFilm
-        }
-        else {
-            return cellDate
-        }
-        
     }
- 
-    @objc func addToFavorite(sender : UIButton){
+    @objc func deleteFromFavoritList(sender : UIButton){
+
+        getFavoriteFilm()[sender.tag].isDelete = true
+        getFavoriteFilm()[sender.tag].isFavorite = false
         
-        for element in FilmDB.all{
-            if element.title == sortedFilmDBTot[sender.tag].title && FilmDB.all[sender.tag].isFavorite == false  {
-                element.isFavorite = true
-                sender.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-            }
-            else if element.title == FilmDB.all[sender.tag].title && FilmDB.all[sender.tag].isFavorite == true  {
-                element.isFavorite = false
-                sender.setImage(UIImage(systemName: "heart"), for: .normal)
-            }
-            
-        }
-        print(sortedFilmDBTot[sender.tag].title ?? "", FilmDB.all[sender.tag].isFavorite )
-    }
+        try? AppDelegate.viewContext.save()
     
+        filmCollectionView.reloadData()
+        
+    }
+    @objc func descriptionFilm(sender : UIButton){
+        let filmDic2 = ["title" : getFavoriteFilm()[sender.tag].title!, "description" : getFavoriteFilm()[sender.tag].overview!, "releaseDate" : getFavoriteFilm()[sender.tag].release_date!, "originalLanguage" : getFavoriteFilm()[sender.tag].original_language!]
+        
+        UserDefaults.standard.set(filmDic2, forKey: "currentFilm2")
+       
+        
+    }
+    @objc func addInIsView(sender : UIButton){
+
+        getFavoriteFilm()[sender.tag].isView = true
+        try? AppDelegate.viewContext.save()
+        filmCollectionView.reloadData()
+        
+    }
 }
+ 
+    
+
+
+        
 
 
 

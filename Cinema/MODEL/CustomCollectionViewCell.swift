@@ -11,12 +11,15 @@ class CustomCollectionViewCell: UICollectionViewCell {
 
     
     
-    @IBOutlet weak var button: UIButton!
+    @IBOutlet weak var releaseDateLabel: UILabel!
+    @IBOutlet weak var descriptionFilmOutlet: UIButton!
+    @IBOutlet weak var isViewButtonOutlet: UIButton!
+    @IBOutlet weak var deleteButtonOutlet: UIButton!
     @IBOutlet weak var labelCell: UILabel!
     
     @IBOutlet weak var imageCell: UIImageView!
     
-    @IBOutlet weak var favoriteButtonOutlet: UIButton!
+  
     override func awakeFromNib() {
             super.awakeFromNib()
 //
@@ -28,15 +31,11 @@ class CustomCollectionViewCell: UICollectionViewCell {
         }
     
     
-    @IBAction func favoriteButton(_ sender: Any) {
-    }
+
     
-    @IBAction func filmButton(_ sender: Any) {
-        print("Caca")
-    }
+   
     
-    func configureCell (filmCell : Film) {
-//        labelCell.text = "TEST"
-    }
-    
+   
 }
+
+

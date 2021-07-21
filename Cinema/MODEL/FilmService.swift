@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 let apiKey = "f6c576993e39ad6e37e6b9057a1ab449"
 let region = "FR"
@@ -19,6 +20,9 @@ struct FilmService {
     var filmArray = [Film]()
     
     static private let filmUrl = URL(string: "https://api.themoviedb.org/3/movie/upcoming?api_key=\(apiKey)&language=\(language)&page=1&region=\(region)")
+    
+   
+    
     
   
     
@@ -51,24 +55,20 @@ struct FilmService {
                     return
                 }
                
-                guard let responseJSON = try? JSONDecoder().decode(FilmsResults.self, from: data)
+                guard let responseJSON = try? JSONDecoder().decode(FilmsResults.self, from: (data))
+                
                 else {
                     callback(false, nil)
-                    print ("Error3")
+                    print ("Eh oui, Error3")
                     return
                 }
-                
-                
-                
                 
                 callback(true, responseJSON)
                 
                 let name = Notification.Name(rawValue: "filmsLoaded")
                 let notification = Notification(name: name)
                 NotificationCenter.default.post(notification)
-                
-                
-                
+     
             }
             
         }
@@ -76,51 +76,159 @@ struct FilmService {
         
     }
  
+    mutating func getTrailer (filmId : String, callback : @escaping(Bool, String)->Void){
     
-    
-    func getDate (dateString : String) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let date = dateFormatter.date(from: dateString)
-        let dateFormatter2 = DateFormatter()
-        dateFormatter2.dateFormat = "dd-MM"
-        let dateDef = dateFormatter2.string(from: date!)
+    let trailerURL = URL(string:"https://api.themoviedb.org/3/movie/\(filmId)/videos?api_key=\(apiKey)&language=en-US")
         
-        return dateDef
+        var request = URLRequest(url: trailerURL!)
+        request.httpMethod = "GET"
+        
+        let session = URLSession(configuration: .default)
+        
+        task = session.dataTask(with: request) {
+            (data, response, error) in
+            
+            DispatchQueue.main.async {
+            guard let data = data, error == nil
+            else{
+                print("trailer error 1")
+                callback(false, "")
+                return
+            }
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200
+            else {
+              
+                print("trailer error 2")
+                callback(false, "")
+                return
+            }
+            guard let responseJSON = try? JSONDecoder().decode(FilmTrailerResults.self, from: data)
+            else{
+                print("trailer error 3")
+                callback(false, "")
+                return
+            }
+                
+            
+            var trailerKeyYoutube = ""
+                for trailer in responseJSON.results {
+                guard trailer.key != "", trailer.site == "YouTube", trailer.type == "Trailer"
+                else {
+                    print(trailer.key)
+                    trailerKeyYoutube = ""
+                    return
+                }
+                trailerKeyYoutube = trailer.key
+            }
+            
+            
+            
+            
+            callback(true, trailerKeyYoutube)
+            
+            let name = Notification.Name(rawValue: "trailerFilmLoaded")
+            let notification = Notification(name: name)
+            NotificationCenter.default.post(notification)
+          
     }
+        }
+        task?.resume()
+
+    }
+}
+    
+    
     
     
     
    
+
+
+func getDate (dateString : String) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd"
+    var dateDef = ""
+    if dateString != ""{
+        let date = dateFormatter.date(from: dateString)
+        
+        let dateFormatter2 = DateFormatter()
+        dateFormatter2.dateFormat = "dd MMMM"
+        dateFormatter2.locale = Locale(identifier: "FR-fr")
+        dateDef = dateFormatter2.string(from: date ?? Date())
+    }
+    else {
+        dateDef = ""
+    }
+    return dateDef
 }
 
-func saveFilm (film : Film)  {
+func saveFilm (filmArray : Set<Film>)  {
    
-    let favoriteFilm = FilmDB(context: AppDelegate.viewContext)
-   
-    favoriteFilm.title = film.title
-    favoriteFilm.original_language = film.original_language
-    favoriteFilm.overview = film.overview
-    favoriteFilm.poster_path = film.poster_path
-    favoriteFilm.release_date = film.release_date
     
-    for element in FilmDB.all {
-        if element.title != film.title{
+    for element in filmArray {
+         
+        if FilmDB.all.contains(where : {$0.title == element.title}) == false {
+            let favoriteFilm = FilmDB(context: AppDelegate.viewContext)
+            favoriteFilm.title = element.title
+            favoriteFilm.original_language = element.original_language
+            favoriteFilm.overview = element.overview
+            favoriteFilm.poster_path = element.poster_path
+            favoriteFilm.release_date = element.release_date
+            favoriteFilm.filmId = Int64(element.id)
             try? AppDelegate.viewContext.save()
-            print ("Le nouvel élément a bien été enregistré")
+            print ("Le nouvel élément a bien été enregistré, \(favoriteFilm.filmId)")
         }
-    else {
-       print ("je n'ai pas sauvegardé cet élément car il existe déjà dans la base de données")
-    }
-    
+        else if FilmDB.all.contains(where: {$0.title == element.title}) == true{
+            
+            for film in FilmDB.all {
+                if film.title == element.title {
+                    film.setValue(element.original_language, forKey: "original_language")
+                    film.setValue(element.overview, forKey: "overview")
+                    film.setValue(element.poster_path, forKey: "poster_path")
+                    film.setValue(element.release_date, forKey: "release_date")
+                    film.setValue(Int64(element.id), forKey: "filmId")
+                }
+            }
+            
+            try? AppDelegate.viewContext.save()
+            print ("Les données du film \(element.title) ont bien été mises à jour, \(element.id)")
+        }
+        else {
+            
+           print ("Les film existe déjà mais les données n'ont pas été mises à jour...")
+        }
+        
     }}
+
+
+
+func deleteFromFavorite (film : FilmDB) {
+    film.setValue(false , forKey: "isFavorite")
+    print(film.title!, film.isFavorite)
+    try? AppDelegate.viewContext.save()
+    
+}
+
+
+
+func noDeleteFilm (film : FilmDB) {
+    film.setValue(false , forKey: "isDelete")
+    print("Film deleted", film.title!, film.isDelete)
+    try? AppDelegate.viewContext.save()
+}
+    
+    
+   
+    
+    
+    
     
 func deleteAllFilms ()  {
     
     for element in FilmDB.all {
         
         AppDelegate.viewContext.delete(element)
-        print ("l'élément \(element.title!) a bien été supprimé ")
+        print ("l'élément \(element.title ?? "") a bien été supprimé ")
     }
     
     try? AppDelegate.viewContext.save()
@@ -128,14 +236,24 @@ func deleteAllFilms ()  {
 }
 
     
-func getImage (imagePath : String) -> Data {
+func getImage (imagePath : String) -> UIImage  {
     
     let urlBase = "https://image.tmdb.org/t/p/original"
-    let urlTot = URL(string :(urlBase + imagePath))!
+    var urlTot = URL(string: "")
     
-    let imageData = try? Data(contentsOf: urlTot)
+    if imagePath != "errorImage" {
+    urlTot = URL(string :(urlBase + imagePath))!
+    }
+    else {
+    urlTot = URL(string: "errorFilm")
+    }
     
-    return imageData ?? Data(count: 0)
+    let imageData = try? Data(contentsOf: (urlTot ?? URL(string: ""))!)
+    
+    
+    let image = UIImage(data: (imageData ?? Data(count: 1)))
+    
+    return image ?? UIImage(named: "error3")!
 }
     
     
