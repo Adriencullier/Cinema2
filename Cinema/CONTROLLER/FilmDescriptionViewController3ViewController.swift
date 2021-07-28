@@ -8,7 +8,7 @@
 import UIKit
 import WebKit
 
-class FilmDescriptionViewController2ViewController: UIViewController {
+class FilmDescriptionViewController3ViewController: UIViewController {
     @IBOutlet weak var languageLabel: UILabel!
     @IBOutlet weak var releaseDateLabel: UILabel!
     @IBOutlet weak var descriptionText: UITextView!
@@ -16,6 +16,7 @@ class FilmDescriptionViewController2ViewController: UIViewController {
   
     
     @IBOutlet weak var titleLabel: UILabel!
+   
     @IBOutlet weak var starOutlet1: UIButton!
     @IBOutlet weak var starOutlet2: UIButton!
     @IBOutlet weak var starOutlet3: UIButton!
@@ -37,24 +38,106 @@ class FilmDescriptionViewController2ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
+       
         
         let film = UserDefaults.standard.object(forKey: "currentFilm2") as? [String:Any]
+        
+        
+        
         
         titleLabel.text = film!["title"] as? String
         descriptionText.text = film!["description"] as? String
         
-        releaseDateLabel.text = "Sortie en salle : \(getDate(dateString: (film!["releaseDate"] as? String)! ))"
+        releaseDateLabel.text = "Sortie en salle : \(getDate(dateString: film!["releaseDate"] as! String) as? String)"
         languageLabel.text = "Langue originale : \"\(film!["originalLanguage"] ?? "")\""
+        if film!["noteFilm"] as! Int == 0 {
+            noteFilm = 0
+            star1IsSelect = false
+            star2IsSelect = false
+            star3IsSelect = false
+            star4IsSelect = false
+            star5IsSelect = false
+            starOutlet1.setImage(UIImage(systemName: "star"), for: .normal)
+            starOutlet2.setImage(UIImage(systemName: "star"), for: .normal)
+            starOutlet3.setImage(UIImage(systemName: "star"), for: .normal)
+            starOutlet4.setImage(UIImage(systemName: "star"), for: .normal)
+            starOutlet5.setImage(UIImage(systemName: "star"), for: .normal)
+        }
+        else if film!["noteFilm"] as! Int == 1 {
+            noteFilm = 1
+            star1IsSelect = true
+            star2IsSelect = false
+            star3IsSelect = false
+            star4IsSelect = false
+            star5IsSelect = false
+            starOutlet1.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            starOutlet2.setImage(UIImage(systemName: "star"), for: .normal)
+            starOutlet3.setImage(UIImage(systemName: "star"), for: .normal)
+            starOutlet4.setImage(UIImage(systemName: "star"), for: .normal)
+            starOutlet5.setImage(UIImage(systemName: "star"), for: .normal)
+        }
+        else if film!["noteFilm"] as! Int == 2 {
+            noteFilm = 2
+            star1IsSelect = true
+            star2IsSelect = true
+            star3IsSelect = false
+            star4IsSelect = false
+            star5IsSelect = false
+            starOutlet1.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            starOutlet2.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            starOutlet3.setImage(UIImage(systemName: "star"), for: .normal)
+            starOutlet4.setImage(UIImage(systemName: "star"), for: .normal)
+            starOutlet5.setImage(UIImage(systemName: "star"), for: .normal)
+        }
+        else if film!["noteFilm"] as! Int == 3 {
+            noteFilm = 3
+            star1IsSelect = true
+            star2IsSelect = true
+            star3IsSelect = true
+            star4IsSelect = false
+            star5IsSelect = false
+            starOutlet1.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            starOutlet2.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            starOutlet3.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            starOutlet4.setImage(UIImage(systemName: "star"), for: .normal)
+            starOutlet5.setImage(UIImage(systemName: "star"), for: .normal)
+        }
+        else if film!["noteFilm"] as! Int == 4 {
+            noteFilm = 4
+            star1IsSelect = true
+            star2IsSelect = true
+            star3IsSelect = true
+            star4IsSelect = true
+            star5IsSelect = false
+            starOutlet1.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            starOutlet2.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            starOutlet3.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            starOutlet4.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            starOutlet5.setImage(UIImage(systemName: "star"), for: .normal)
+        }
+        else if film!["noteFilm"] as! Int ==  5 {
+            noteFilm = 5
+            star1IsSelect = true
+            star2IsSelect = true
+            star3IsSelect = true
+            star4IsSelect = true
+            star5IsSelect = true
+            starOutlet1.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            starOutlet2.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            starOutlet3.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            starOutlet4.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            starOutlet5.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        }
+        else{}
         
-        FilmService.shared.getTrailer(filmId: (film!["filmId"] as? String)! ) { success, key in
+        FilmService.shared.getTrailer(filmId: film!["filmId"] as! String) { success, key in
             if success {
 //                print(film?["filmId"])
                 self.key2 = key
 //                print ("Key 2 : \(self.key2)")
             }
             else {
-                print(film?["filmId"] ?? "")
+                print(film?["filmId"]!)
                 print("ya un soucis quelque part")
             }
         }
@@ -78,25 +161,27 @@ class FilmDescriptionViewController2ViewController: UIViewController {
     
 
     
-    @IBAction func deleteButton(_ sender: Any) {
-        
-        let film = UserDefaults.standard.object(forKey: "currentFilm2") as? [String:String]
-        deleteFromFavorite(filmTitle: film!["title"] ?? "")
-        
-        }
+//    @IBAction func deleteButton(_ sender: Any) {
+//
+//        let film = UserDefaults.standard.object(forKey: "currentFilm2") as? [String:String]
+//        deleteFromFavorite(filmTitle: film!["title"] ?? "")
+//
+//        }
         
     
     
-    @IBAction func isViewButton(_ sender: Any) {
-        let film = UserDefaults.standard.object(forKey: "currentFilm2") as? [String:String]
-        isView(filmTitle: film!["title"] ?? "", noteFilm: Int64(noteFilm))
-        
+    @IBAction func updateButton(_ sender: Any) {
+        let film = UserDefaults.standard.object(forKey: "currentFilm2") as? [String:Any]
+        isView(filmTitle: film!["title"] as? String ?? "", noteFilm: Int64(noteFilm))
     }
+ 
+       
+        
     
     
     
     @IBAction func star1(_ sender: Any) {
-        
+
         star1IsSelect.toggle()
         if star1IsSelect == false {
             noteFilm = 0
@@ -116,6 +201,7 @@ class FilmDescriptionViewController2ViewController: UIViewController {
         }
         print (noteFilm)
     }
+    
     @IBAction func star2(_ sender: Any) {
       
         star2IsSelect.toggle()
@@ -138,7 +224,7 @@ class FilmDescriptionViewController2ViewController: UIViewController {
         print (noteFilm)
     }
     @IBAction func star3(_ sender: Any) {
-       
+   
         star3IsSelect.toggle()
         if star3IsSelect == false {
             noteFilm = 2
@@ -159,7 +245,7 @@ class FilmDescriptionViewController2ViewController: UIViewController {
         print (noteFilm)
     }
     @IBAction func star4(_ sender: Any) {
-        
+    
         star4IsSelect.toggle()
         if star4IsSelect == false {
             noteFilm = 3
@@ -182,7 +268,7 @@ class FilmDescriptionViewController2ViewController: UIViewController {
         print (noteFilm)
     }
     @IBAction func star5(_ sender: Any) {
-        
+   
         star5IsSelect.toggle()
         if star5IsSelect == false {
             starOutlet5.setImage(UIImage(systemName: "star"), for: .normal)

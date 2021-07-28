@@ -22,6 +22,9 @@
 		03B7B5C126A06F88005A5FF8 /* FilmService2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B7B5C026A06F88005A5FF8 /* FilmService2.swift */; };
 		03B7B5C326A1C803005A5FF8 /* FilmDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B7B5C226A1C802005A5FF8 /* FilmDescriptionViewController.swift */; };
 		03B7B5C526A6D17F005A5FF8 /* FilmDescriptionViewController2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B7B5C426A6D17E005A5FF8 /* FilmDescriptionViewController2ViewController.swift */; };
+		03B7B5C726A9A43E005A5FF8 /* SectionViewHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B7B5C626A9A43D005A5FF8 /* SectionViewHeaderCollectionReusableView.swift */; };
+		03B7B5C926AAC4B7005A5FF8 /* ViewFilmsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B7B5C826AAC4B5005A5FF8 /* ViewFilmsViewController.swift */; };
+		03B7B5CB26AB017E005A5FF8 /* FilmDescriptionViewController3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B7B5CA26AB017C005A5FF8 /* FilmDescriptionViewController3ViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +45,9 @@
 		03B7B5C026A06F88005A5FF8 /* FilmService2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmService2.swift; sourceTree = "<group>"; };
 		03B7B5C226A1C802005A5FF8 /* FilmDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmDescriptionViewController.swift; sourceTree = "<group>"; };
 		03B7B5C426A6D17E005A5FF8 /* FilmDescriptionViewController2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmDescriptionViewController2ViewController.swift; sourceTree = "<group>"; };
+		03B7B5C626A9A43D005A5FF8 /* SectionViewHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionViewHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
+		03B7B5C826AAC4B5005A5FF8 /* ViewFilmsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFilmsViewController.swift; sourceTree = "<group>"; };
+		03B7B5CA26AB017C005A5FF8 /* FilmDescriptionViewController3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmDescriptionViewController3ViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +98,7 @@
 				03B7B5C026A06F88005A5FF8 /* FilmService2.swift */,
 				03ABB0C726981B4600E56E03 /* CustomCollectionViewCell.swift */,
 				035DA8A7269C5434007E8A6E /* DateCustomCollectionViewCell.swift */,
+				03B7B5C626A9A43D005A5FF8 /* SectionViewHeaderCollectionReusableView.swift */,
 			);
 			path = MODEL;
 			sourceTree = "<group>";
@@ -109,6 +116,8 @@
 			isa = PBXGroup;
 			children = (
 				036A830C2696CE2800045A7A /* ViewController.swift */,
+				03B7B5C826AAC4B5005A5FF8 /* ViewFilmsViewController.swift */,
+				03B7B5CA26AB017C005A5FF8 /* FilmDescriptionViewController3ViewController.swift */,
 				03B7B5BE26A06A28005A5FF8 /* TinderViewController.swift */,
 				03B7B5C226A1C802005A5FF8 /* FilmDescriptionViewController.swift */,
 				03B7B5C426A6D17E005A5FF8 /* FilmDescriptionViewController2ViewController.swift */,
@@ -200,9 +209,12 @@
 				03B7B5C326A1C803005A5FF8 /* FilmDescriptionViewController.swift in Sources */,
 				035DA8A8269C5434007E8A6E /* DateCustomCollectionViewCell.swift in Sources */,
 				03ABB0C826981B4600E56E03 /* CustomCollectionViewCell.swift in Sources */,
+				03B7B5C726A9A43E005A5FF8 /* SectionViewHeaderCollectionReusableView.swift in Sources */,
 				036A83132696CE2800045A7A /* Cinema.xcdatamodeld in Sources */,
 				036A830D2696CE2800045A7A /* ViewController.swift in Sources */,
+				03B7B5C926AAC4B7005A5FF8 /* ViewFilmsViewController.swift in Sources */,
 				036A83262696D02400045A7A /* FilmService.swift in Sources */,
+				03B7B5CB26AB017E005A5FF8 /* FilmDescriptionViewController3ViewController.swift in Sources */,
 				036A83092696CE2800045A7A /* AppDelegate.swift in Sources */,
 				036A830B2696CE2800045A7A /* SceneDelegate.swift in Sources */,
 				03B7B5C526A6D17F005A5FF8 /* FilmDescriptionViewController2ViewController.swift in Sources */,

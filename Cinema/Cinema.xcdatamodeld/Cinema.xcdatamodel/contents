@@ -5,13 +5,15 @@
         <attribute name="isDelete" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="isFavorite" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="isView" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="noteFilm" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="original_language" optional="YES" attributeType="String"/>
         <attribute name="overview" optional="YES" attributeType="String"/>
         <attribute name="poster_path" optional="YES" attributeType="String"/>
         <attribute name="release_date" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="viewDate" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="FilmDB" positionX="-63" positionY="-18" width="128" height="164"/>
+        <element name="FilmDB" positionX="-63" positionY="-18" width="128" height="194"/>
     </elements>
 </model>

@@ -27,10 +27,10 @@ class FilmDB : NSManagedObject {
     
 
 }
-func getFavoriteFilm()-> [FilmDB] {
+func getFavoriteFilm(releaseDate : String)-> [FilmDB] {
     
     let request : NSFetchRequest<FilmDB> = FilmDB.fetchRequest()
-    request.predicate = NSPredicate(format: "isFavorite = %@ && isView = %@", NSNumber(value: true), NSNumber(value: false))
+    request.predicate = NSPredicate(format: "isFavorite = %@ && isView = %@ && release_date =%@ ", NSNumber(value: true), NSNumber(value: false), releaseDate)
 //    request.predicate = NSPredicate(format: "isView = %@", NSNumber(value: false))
     guard let films = try? AppDelegate.viewContext.fetch(request)
     else {
@@ -40,6 +40,60 @@ func getFavoriteFilm()-> [FilmDB] {
     let sortedFilms = films.sorted(by: {$0.release_date! < $1.release_date!})
     return sortedFilms
 }
+
+func getViewFilms() -> [FilmDB] {
+    
+    let request : NSFetchRequest<FilmDB> = FilmDB.fetchRequest()
+    request.predicate = NSPredicate(format: "isView = %@", NSNumber(value: true))
+
+    
+    guard let films = try? AppDelegate.viewContext.fetch(request)
+    else {
+        print ("le fetch n'a pas réussi")
+        return []
+    }
+    let sortedFilms = films.sorted(by: {$0.noteFilm > $1.noteFilm})
+    return sortedFilms
+}
+
+func getFavoriteFilm2()-> [FilmDB] {
+    
+    let request : NSFetchRequest<FilmDB> = FilmDB.fetchRequest()
+    request.predicate = NSPredicate(format: "isFavorite = %@ && isView = %@", NSNumber(value: true), NSNumber(value: true))
+//    request.predicate = NSPredicate(format: "isView = %@", NSNumber(value: false))
+    guard let films = try? AppDelegate.viewContext.fetch(request)
+    else {
+        print ("le fetch n'a pas réussi")
+        return []
+    }
+    let sortedFilms = films.sorted(by: {$0.release_date! < $1.release_date!})
+    return sortedFilms
+}
+
+func getSectionArray() -> [String]{
+    var sectionArray = [String]()
+    
+    let request : NSFetchRequest<FilmDB> = FilmDB.fetchRequest()
+    request.predicate = NSPredicate(format: "isFavorite = %@ && isView = %@", NSNumber(value: true), NSNumber(value: false))
+    
+
+    guard let films = try? AppDelegate.viewContext.fetch(request)
+    else {
+        print ("le fetch n'a pas réussi")
+        return []
+    }
+    let sortedFilms = films.sorted(by: {$0.release_date! < $1.release_date!})
+    
+    for film in sortedFilms {
+        if sectionArray.contains(film.release_date!) == false {
+            sectionArray.append(film.release_date!)
+        }
+        else{}
+    }
+    
+    return sectionArray
+}
+
 
 
 struct Film : Decodable, Hashable {

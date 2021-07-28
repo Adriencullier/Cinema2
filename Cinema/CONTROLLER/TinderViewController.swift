@@ -19,6 +19,7 @@ class TinderViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var posterLabel: UIImageView!
     @IBOutlet weak var releaseDateLabel: UILabel!
+    @IBOutlet weak var refreshButton: UIButton!
     
     
     @IBAction func favoriteButton(_ sender: Any) {
@@ -28,7 +29,10 @@ class TinderViewController: UIViewController {
     }
         
         
-        
+    @IBAction func refreshButtonAction(_ sender: Any) {
+        viewDidLoad()
+    }
+    
         
     
     @IBAction func deleteButton(_ sender: Any) {
@@ -46,7 +50,7 @@ class TinderViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+      print("cacaprout")
 
         FilmService.shared.getFilmsRelease { success, arrayOfFilm in
             if success, let arrayOfFilm = arrayOfFilm {
@@ -64,6 +68,9 @@ class TinderViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(filmsLoaded), name: name, object: nil)
     }
  
+    @IBAction func unwindToTinderViewController(segue:UIStoryboardSegue) {
+        
+    }
     
     
     @objc func filmsLoaded(){
@@ -108,12 +115,12 @@ class TinderViewController: UIViewController {
         
         else {
             titleLabel.text = "Plus de films..."
-            releaseDateLabel.text = "Vivement mercredi !"
-            posterLabel.image = UIImage(named: "error4")
+            releaseDateLabel.text = "Un peu de patience !"
+            posterLabel.image = UIImage(named: "error3")
             favoriteButtonOutlet.isHidden = true
             deleteButtonOutlet.isHidden = true
             infoButtonOutlet.isHidden = true
-            
+            refreshButton.isHidden = false
             
         }
         

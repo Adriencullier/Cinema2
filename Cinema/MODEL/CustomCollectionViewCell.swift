@@ -9,12 +9,15 @@ import UIKit
 
 class CustomCollectionViewCell: UICollectionViewCell {
 
+    @IBOutlet weak var star1Outlet: UIButton!
     
+    @IBOutlet weak var star2Outlet: UIButton!
+    @IBOutlet weak var star3Outlet: UIButton!
+    @IBOutlet weak var star4Outlet: UIButton!
     
-    @IBOutlet weak var releaseDateLabel: UILabel!
-    @IBOutlet weak var descriptionFilmOutlet: UIButton!
-    @IBOutlet weak var isViewButtonOutlet: UIButton!
-    @IBOutlet weak var deleteButtonOutlet: UIButton!
+    @IBOutlet weak var star5Outlet: UIButton!
+    
+
     @IBOutlet weak var labelCell: UILabel!
     
     @IBOutlet weak var imageCell: UIImageView!

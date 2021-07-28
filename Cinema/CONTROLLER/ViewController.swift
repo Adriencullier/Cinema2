@@ -12,9 +12,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var filmCollectionView: UICollectionView!
     
-    @IBAction func descriptionFilm(_ sender: Any) {
-        
-    }
+    
     
     
     var arrayOfFilms = Set<Film>()
@@ -25,20 +23,26 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        filmCollectionView.reloadData()
 
         
         
+    }
+    @IBAction func unwindToViewController(segue:UIStoryboardSegue) {
+        filmCollectionView.reloadData()
     }
 }
 
 
 
+
 extension ViewController : UICollectionViewDataSource {
 
+  
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-
-        return getFavoriteFilm().count ?? 0
+        return getFavoriteFilm(releaseDate: getSectionArray()[section]).count
         
      
     }
@@ -50,53 +54,74 @@ extension ViewController : UICollectionViewDataSource {
         
         let cellFilm = filmCollectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as! CustomCollectionViewCell
         
-        cellFilm.labelCell.text = getFavoriteFilm()[indexPath.item].title
+        cellFilm.labelCell.text = getFavoriteFilm( releaseDate: getSectionArray()[indexPath.section])[indexPath.item].title
 
-        cellFilm.deleteButtonOutlet.tag = indexPath.item
-        cellFilm.deleteButtonOutlet.addTarget(self, action: #selector(deleteFromFavoritList), for: .touchUpInside)
-        
-        cellFilm.isViewButtonOutlet.tag = indexPath.item
-        cellFilm.isViewButtonOutlet.addTarget(self, action: #selector(addInIsView), for: .touchUpInside)
-        
-        cellFilm.descriptionFilmOutlet.tag = indexPath.item
-        cellFilm.descriptionFilmOutlet.addTarget(self, action: #selector(descriptionFilm), for: .touchUpInside)
+//        cellFilm.deleteButtonOutlet.tag = indexPath.item
+//        cellFilm.deleteButtonOutlet.addTarget(self, action: #selector(deleteFromFavoritList), for: .touchUpInside)
+//
+//        cellFilm.isViewButtonOutlet.tag = indexPath.item
+//        cellFilm.isViewButtonOutlet.addTarget(self, action: #selector(addInIsView), for: .touchUpInside)
+//
+//        cellFilm.descriptionFilmOutlet.tag = indexPath.item
+//        cellFilm.descriptionFilmOutlet.addTarget(self, action: #selector(descriptionFilm), for: .touchUpInside)
 
 
         
-        let image = getImage(imagePath: getFavoriteFilm()[indexPath.item].poster_path!)
+        let image = getImage(imagePath: getFavoriteFilm(releaseDate: getSectionArray()[indexPath.section])[indexPath.item].poster_path!)
 
         let data = image.jpegData(compressionQuality: 0)
 
         cellFilm.imageCell.image = UIImage(data: data!)
         
-        cellFilm.releaseDateLabel.text = "Date de sortie : \(getDate(dateString: getFavoriteFilm()[indexPath.item].release_date!))"
-
+       
 
         return cellFilm
     }
-    @objc func deleteFromFavoritList(sender : UIButton){
-
-        getFavoriteFilm()[sender.tag].isDelete = true
-        getFavoriteFilm()[sender.tag].isFavorite = false
+//    @objc func deleteFromFavoritList(sender : UIButton){
+//
+//         getFavoriteFilm2()[sender.tag].isDelete = true
+//        getFavoriteFilm2()[sender.tag].isFavorite = false
+//        
+//        try? AppDelegate.viewContext.save()
+//    
+//        filmCollectionView.reloadData()
+//        
+//    }
+//    @objc func descriptionFilm(sender : UIButton){
+//        for film in getFavoriteFilm2(){
+//            print (film.title!)
+//        }
+//        print(sender.tag)
         
-        try? AppDelegate.viewContext.save()
-    
-        filmCollectionView.reloadData()
+//        
+//    }
+//    @objc func addInIsView(sender : UIButton){
+//
+//        getFavoriteFilm2()[sender.tag].isView = true
+//        try? AppDelegate.viewContext.save()
+//        filmCollectionView.reloadData()
+//
+//    }
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let sectionViewHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "sectioHeaderView", for: indexPath) as! SectionViewHeaderCollectionReusableView
         
-    }
-    @objc func descriptionFilm(sender : UIButton){
-        let filmDic2 = ["title" : getFavoriteFilm()[sender.tag].title!, "description" : getFavoriteFilm()[sender.tag].overview!, "releaseDate" : getFavoriteFilm()[sender.tag].release_date!, "originalLanguage" : getFavoriteFilm()[sender.tag].original_language!]
-        
-        UserDefaults.standard.set(filmDic2, forKey: "currentFilm2")
+        sectionViewHeader.sectionHeaderLabel.text = "Sortie le  \(getDate(dateString: getSectionArray()[indexPath.section]))"
        
         
+        return sectionViewHeader
     }
-    @objc func addInIsView(sender : UIButton){
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(getFavoriteFilm(releaseDate: getSectionArray()[indexPath.section])[indexPath.item].title!)
+        let filmDic2 = [
+            "title" : getFavoriteFilm(releaseDate: getSectionArray()[indexPath.section])[indexPath.item].title! ,
+            "description" : getFavoriteFilm(releaseDate: getSectionArray()[indexPath.section])[indexPath.item].overview!,
+            "releaseDate" : getFavoriteFilm(releaseDate: getSectionArray()[indexPath.section])[indexPath.item].original_language!,
+            "filmId" : String(getFavoriteFilm(releaseDate: getSectionArray()[indexPath.section])[indexPath.item].filmId)
+        ]
 
-        getFavoriteFilm()[sender.tag].isView = true
-        try? AppDelegate.viewContext.save()
-        filmCollectionView.reloadData()
-        
+        UserDefaults.standard.set(filmDic2, forKey: "currentFilm2")
+       
     }
 }
  
@@ -108,6 +133,10 @@ extension ViewController : UICollectionViewDataSource {
 
 
 extension ViewController : UICollectionViewDelegate {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        getSectionArray().count
+    }
     
 }
 
