@@ -59,7 +59,7 @@ struct FilmService {
                 
                 else {
                     callback(false, nil)
-                    print ("Eh oui, Error3")
+                    print ("Error3")
                     return
                 }
                 
@@ -209,7 +209,19 @@ func deleteFromFavorite (film : FilmDB) {
     
 }
 
-
+//
+func saveFilm () {
+    let film = FilmDB(context: AppDelegate.viewContext)
+    film.title = "Titre du film"
+    
+    try? AppDelegate.viewContext.save()
+}
+//
+func deleteFilmDB (film : FilmDB) {
+    AppDelegate.viewContext.delete(film)
+    
+    try? AppDelegate.viewContext.save()
+}
 
 func noDeleteFilm (film : FilmDB) {
     film.setValue(false , forKey: "isDelete")
@@ -259,15 +271,6 @@ func getImage (imagePath : String) -> UIImage  {
     
 
 
-//func displayFavoriteFilm(){
-//    let FilmDBTot = FilmDB.all
-//    let sortedFilmDBTot = FilmDBTot.sorted{
-//        $0.release_date ?? "" < $1.release_date ?? ""
-//    }
-//
-//    for film in sortedFilmDBTot {
-//        print (film.title ?? "", film.release_date ?? "")
-//    }
-//}
+
 
 

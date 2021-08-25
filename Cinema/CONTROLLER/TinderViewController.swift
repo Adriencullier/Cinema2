@@ -50,8 +50,8 @@ class TinderViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      print("cacaprout")
 
+        
         FilmService.shared.getFilmsRelease { success, arrayOfFilm in
             if success, let arrayOfFilm = arrayOfFilm {
                 for element in arrayOfFilm.results {

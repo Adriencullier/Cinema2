@@ -12,9 +12,6 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var filmCollectionView: UICollectionView!
     
-    
-    
-    
     var arrayOfFilms = Set<Film>()
     var arrayOfDate = [String]()
     var sortedArrayOfDate = [String]()
@@ -55,17 +52,6 @@ extension ViewController : UICollectionViewDataSource {
         let cellFilm = filmCollectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as! CustomCollectionViewCell
         
         cellFilm.labelCell.text = getFavoriteFilm( releaseDate: getSectionArray()[indexPath.section])[indexPath.item].title
-
-//        cellFilm.deleteButtonOutlet.tag = indexPath.item
-//        cellFilm.deleteButtonOutlet.addTarget(self, action: #selector(deleteFromFavoritList), for: .touchUpInside)
-//
-//        cellFilm.isViewButtonOutlet.tag = indexPath.item
-//        cellFilm.isViewButtonOutlet.addTarget(self, action: #selector(addInIsView), for: .touchUpInside)
-//
-//        cellFilm.descriptionFilmOutlet.tag = indexPath.item
-//        cellFilm.descriptionFilmOutlet.addTarget(self, action: #selector(descriptionFilm), for: .touchUpInside)
-
-
         
         let image = getImage(imagePath: getFavoriteFilm(releaseDate: getSectionArray()[indexPath.section])[indexPath.item].poster_path!)
 
@@ -77,31 +63,7 @@ extension ViewController : UICollectionViewDataSource {
 
         return cellFilm
     }
-//    @objc func deleteFromFavoritList(sender : UIButton){
-//
-//         getFavoriteFilm2()[sender.tag].isDelete = true
-//        getFavoriteFilm2()[sender.tag].isFavorite = false
-//        
-//        try? AppDelegate.viewContext.save()
-//    
-//        filmCollectionView.reloadData()
-//        
-//    }
-//    @objc func descriptionFilm(sender : UIButton){
-//        for film in getFavoriteFilm2(){
-//            print (film.title!)
-//        }
-//        print(sender.tag)
-        
-//        
-//    }
-//    @objc func addInIsView(sender : UIButton){
-//
-//        getFavoriteFilm2()[sender.tag].isView = true
-//        try? AppDelegate.viewContext.save()
-//        filmCollectionView.reloadData()
-//
-//    }
+
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let sectionViewHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "sectioHeaderView", for: indexPath) as! SectionViewHeaderCollectionReusableView
         

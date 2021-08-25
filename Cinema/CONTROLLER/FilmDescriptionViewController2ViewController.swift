@@ -49,21 +49,15 @@ class FilmDescriptionViewController2ViewController: UIViewController {
         
         FilmService.shared.getTrailer(filmId: (film!["filmId"] as? String)! ) { success, key in
             if success {
-//                print(film?["filmId"])
                 self.key2 = key
-//                print ("Key 2 : \(self.key2)")
             }
             else {
-                print(film?["filmId"] ?? "")
-                print("ya un soucis quelque part")
+                
+            
             }
         }
         
-       
-        
-        
-       
-        let name = Notification.Name(rawValue: "trailerFilmLoaded")
+let name = Notification.Name(rawValue: "trailerFilmLoaded")
         NotificationCenter.default.addObserver(self, selector: #selector(trailerFilmLoaded), name: name, object: nil)
     }
     
@@ -206,14 +200,5 @@ class FilmDescriptionViewController2ViewController: UIViewController {
         print (noteFilm)
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+  
 }

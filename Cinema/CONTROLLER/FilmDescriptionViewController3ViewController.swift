@@ -132,13 +132,10 @@ class FilmDescriptionViewController3ViewController: UIViewController {
         
         FilmService.shared.getTrailer(filmId: film!["filmId"] as! String) { success, key in
             if success {
-//                print(film?["filmId"])
                 self.key2 = key
-//                print ("Key 2 : \(self.key2)")
             }
             else {
-                print(film?["filmId"]!)
-                print("ya un soucis quelque part")
+               
             }
         }
         
@@ -159,27 +156,12 @@ class FilmDescriptionViewController3ViewController: UIViewController {
     }
 
     
-
-    
-//    @IBAction func deleteButton(_ sender: Any) {
-//
-//        let film = UserDefaults.standard.object(forKey: "currentFilm2") as? [String:String]
-//        deleteFromFavorite(filmTitle: film!["title"] ?? "")
-//
-//        }
-        
-    
-    
     @IBAction func updateButton(_ sender: Any) {
         let film = UserDefaults.standard.object(forKey: "currentFilm2") as? [String:Any]
         isView(filmTitle: film!["title"] as? String ?? "", noteFilm: Int64(noteFilm))
     }
  
-       
-        
-    
-    
-    
+
     @IBAction func star1(_ sender: Any) {
 
         star1IsSelect.toggle()
@@ -292,14 +274,6 @@ class FilmDescriptionViewController3ViewController: UIViewController {
         print (noteFilm)
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+   
 
 }

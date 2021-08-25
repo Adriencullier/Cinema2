@@ -25,7 +25,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
   
     override func awakeFromNib() {
             super.awakeFromNib()
-//
+
         self.backgroundColor = .white
         self.layer.borderWidth = 1
         self.layer.cornerRadius = 10

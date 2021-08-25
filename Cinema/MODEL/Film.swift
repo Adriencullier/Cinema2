@@ -15,7 +15,6 @@ class FilmDB : NSManagedObject {
         let request : NSFetchRequest<FilmDB> = FilmDB.fetchRequest()
         guard let films = try? AppDelegate.viewContext.fetch(request)
         else {
-            print ("le fetch n'a pas réussi")
             return []
         }
         return films
@@ -31,10 +30,8 @@ func getFavoriteFilm(releaseDate : String)-> [FilmDB] {
     
     let request : NSFetchRequest<FilmDB> = FilmDB.fetchRequest()
     request.predicate = NSPredicate(format: "isFavorite = %@ && isView = %@ && release_date =%@ ", NSNumber(value: true), NSNumber(value: false), releaseDate)
-//    request.predicate = NSPredicate(format: "isView = %@", NSNumber(value: false))
     guard let films = try? AppDelegate.viewContext.fetch(request)
     else {
-        print ("le fetch n'a pas réussi")
         return []
     }
     let sortedFilms = films.sorted(by: {$0.release_date! < $1.release_date!})
@@ -49,7 +46,6 @@ func getViewFilms() -> [FilmDB] {
     
     guard let films = try? AppDelegate.viewContext.fetch(request)
     else {
-        print ("le fetch n'a pas réussi")
         return []
     }
     let sortedFilms = films.sorted(by: {$0.noteFilm > $1.noteFilm})
@@ -60,10 +56,8 @@ func getFavoriteFilm2()-> [FilmDB] {
     
     let request : NSFetchRequest<FilmDB> = FilmDB.fetchRequest()
     request.predicate = NSPredicate(format: "isFavorite = %@ && isView = %@", NSNumber(value: true), NSNumber(value: true))
-//    request.predicate = NSPredicate(format: "isView = %@", NSNumber(value: false))
     guard let films = try? AppDelegate.viewContext.fetch(request)
     else {
-        print ("le fetch n'a pas réussi")
         return []
     }
     let sortedFilms = films.sorted(by: {$0.release_date! < $1.release_date!})
@@ -79,7 +73,6 @@ func getSectionArray() -> [String]{
 
     guard let films = try? AppDelegate.viewContext.fetch(request)
     else {
-        print ("le fetch n'a pas réussi")
         return []
     }
     let sortedFilms = films.sorted(by: {$0.release_date! < $1.release_date!})

@@ -114,14 +114,7 @@ extension ViewFilmsViewController : UICollectionViewDataSource {
     }
 
     
-//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-//        let sectionViewHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "sectioHeaderView", for: indexPath) as! SectionViewHeaderCollectionReusableView
-//
-//        sectionViewHeader.sectionHeaderLabel.text = "Sortie le  \(getDate(dateString: getSectionArray()[indexPath.section]))"
-//
-//
-//        return sectionViewHeader
-//    }
+
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(getViewFilms()[indexPath.item].title!)
@@ -147,10 +140,6 @@ extension ViewFilmsViewController : UICollectionViewDataSource {
 
 extension ViewFilmsViewController : UICollectionViewDelegate {
     
-//    func numberOfSections(in collectionView: UICollectionView) -> Int {
-//        getSectionArray().count
-//    }
-//
 }
 
 
